@@ -1,0 +1,14 @@
+- @branches.each do |branch, builds|
+  .branch{class: builds.first['status']}
+    %h1
+      %i.fa.fa-code-fork
+      = branch
+    %ul.builds
+      - builds.each do |build|
+        %li.build{class: build['status']}
+          - if build['status'] == 'success'
+            %i.fa.fa-check
+          - elsif build['status'] == 'error'
+            %i.fa.fa-times
+          - else
+            %i.fa.fa-question

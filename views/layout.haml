@@ -1,0 +1,84 @@
+!!!
+%html
+  %head
+    %title Codeship Build Monitor
+    %meta{content: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1, minimal-ui", name: "viewport"}/
+    %meta{content: "yes", name: "apple-mobile-web-app-capable"}/
+    %meta{content: "black-translucent", name: "apple-mobile-web-app-status-bar-style"}/
+    %link{href: "//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css", rel: "stylesheet"}/
+    %link{href: "http://fonts.googleapis.com/css?family=Open+Sans", rel: "stylesheet", type: "text/css"}/
+    %script{src: '//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.0/jquery.min.js', type: 'text/javascript'}
+    :css
+      html * {
+        margin: 0;
+        padding: 0;
+      }
+      body, html, #container { height: 100%; width: 100%; }
+      body {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 2.1vh;
+        color: #eee;
+      }
+
+      .branch {
+        background-color: #7FDBFF;
+        margin-bottom: 1px;
+        height: #{(1/ @branches.count.to_f) * 100}vh;
+        line-height: #{(1/ @branches.count.to_f) * 100}vh;
+        width: 100%;
+
+        transition: color 1s ease-in;
+        -webkit-transition: color 1s ease-in;
+      }
+
+      .branch.success {
+        background-color: #26972d;
+      }
+
+      .branch.error {
+        background-color: #FF4136;
+        color: #333;
+      }
+
+      .branch.testing {
+        color: #333;
+      }
+
+      h1, ul, li {
+        display: inline;
+      }
+
+      ul, li {
+        height: 100%;
+      }
+
+      h1 {
+        margin-right: 0.5em;
+        height: 100%;
+        font-size: 2em;
+        margin-left: 1em;
+      }
+
+      h1 i {
+        color: #ccc;
+      }
+
+      .build {
+        font-size: 1.4em;
+      }
+
+      .build.error {
+        color: #94002d;
+      }
+    :coffee
+      $ ->
+        $('#container').on 'touchstart', ->
+          $('#container')[0].webkitRequestFullscreen()
+      setInterval ->
+        path = window.location.search
+        $('#container').load '/'+path+' #container', ->
+          console.log 'reloaded!'
+      , 30 * 1000
+  %body
+    #container
+      = yield
